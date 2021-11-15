@@ -5,5 +5,5 @@ pandas
 Pillow
 scikit_image
 scikit_learn
-streamlit
-pip install --upgrade pip
+streamlit==0.75.0
+
