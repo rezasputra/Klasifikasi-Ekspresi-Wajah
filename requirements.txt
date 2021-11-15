@@ -6,4 +6,4 @@ Pillow
 scikit_image
 scikit_learn
 streamlit
-cv2
+pip install --upgrade pip
