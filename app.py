@@ -115,97 +115,97 @@ if uploaded_file is not None:
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     rects = detector(gray, 0)
-    for rect in rects:
-        landmarks = predictor(gray, rect)
-        (x, y, w, h) = face_utils.rect_to_bb(rect)
-        cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 1)
+    if rects is not None:
+        for rect in rects:
+            landmarks = predictor(gray, rect)
+            (x, y, w, h) = face_utils.rect_to_bb(rect)
+            cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 1)
 
-        fp.get_left_eye(landmarks)
-        fp.get_right_eye(landmarks)
-        fp.get_mouth(landmarks)
+            fp.get_left_eye(landmarks)
+            fp.get_right_eye(landmarks)
+            fp.get_mouth(landmarks)
 
-        leftEye = fp.crop_left_eye(gray)
-        rightEye = fp.crop_righ_eye(gray)
-        mouth = fp.crop_mouth(gray)
+            leftEye = fp.crop_left_eye(gray)
+            rightEye = fp.crop_righ_eye(gray)
+            mouth = fp.crop_mouth(gray)
 
-        # LBP Process
-        histogram_L = desc.describe(leftEye).reshape((1,26))
-        histogram_R = desc.describe(rightEye).reshape((1,26))
-        histogram_M = desc.describe(mouth).reshape((1,26))
+            # LBP Process
+            histogram_L = desc.describe(leftEye).reshape((1,26))
+            histogram_R = desc.describe(rightEye).reshape((1,26))
+            histogram_M = desc.describe(mouth).reshape((1,26))
 
-        data_L = pd.DataFrame(histogram_L)
-        data_R = pd.DataFrame(histogram_R)
-        data_M = pd.DataFrame(histogram_M)
+            data_L = pd.DataFrame(histogram_L)
+            data_R = pd.DataFrame(histogram_R)
+            data_M = pd.DataFrame(histogram_M)
 
-        data = pd.concat([data_L, data_R, data_M], axis=1, ignore_index=True)
-        # st.write("Hasil Histogram", data)
+            data = pd.concat([data_L, data_R, data_M], axis=1, ignore_index=True)
+            # st.write("Hasil Histogram", data)
 
-        new_baris = {
-            'l1': histogram_L[0][0], 'l2': histogram_L[0][1], 'l3': histogram_L[0][2],
-            'l4': histogram_L[0][3], 'l5': histogram_L[0][4], 'l6': histogram_L[0][5],
-            'l7': histogram_L[0][6], 'l8': histogram_L[0][7], 'l9': histogram_L[0][8],
-            'l10': histogram_L[0][9], 'l11': histogram_L[0][10], 'l12': histogram_L[0][11],
-            'l13': histogram_L[0][12], 'l14': histogram_L[0][13], 'l15': histogram_L[0][14],
-            'l16': histogram_L[0][15], 'l17': histogram_L[0][16], 'l18': histogram_L[0][17],
-            'l19': histogram_L[0][18], 'l20': histogram_L[0][19], 'l21': histogram_L[0][20],
-            'l22': histogram_L[0][21], 'l23': histogram_L[0][22], 'l24': histogram_L[0][23],
-            'l25': histogram_L[0][24], 'l26': histogram_L[0][25],
-            'r1': histogram_R[0][0], 'r2': histogram_R[0][1], 'r3': histogram_R[0][2],
-            'r4': histogram_R[0][3], 'r5': histogram_R[0][4], 'r6': histogram_R[0][5],
-            'r7': histogram_R[0][6], 'r8': histogram_R[0][7], 'r9': histogram_R[0][8],
-            'r10': histogram_R[0][9], 'r11': histogram_R[0][10], 'r12': histogram_R[0][11],
-            'r13': histogram_R[0][12], 'r14': histogram_R[0][13], 'r15': histogram_R[0][14],
-            'r16': histogram_R[0][15], 'r17': histogram_R[0][16], 'r18': histogram_R[0][17],
-            'r19': histogram_R[0][18], 'r20': histogram_R[0][19], 'r21': histogram_R[0][20],
-            'r22': histogram_R[0][21], 'r23': histogram_R[0][22], 'r24': histogram_R[0][23],
-            'r25': histogram_R[0][24], 'r26': histogram_R[0][25],
-            'm1': histogram_M[0][0], 'm2': histogram_M[0][1], 'm3': histogram_M[0][2],
-            'm4': histogram_M[0][3], 'm5': histogram_M[0][4], 'm6': histogram_M[0][5],
-            'm7': histogram_M[0][6], 'm8': histogram_M[0][7], 'm9': histogram_M[0][8],
-            'm10': histogram_M[0][9], 'm11': histogram_M[0][10], 'm12': histogram_M[0][11],
-            'm13': histogram_M[0][12], 'm14': histogram_M[0][13], 'm15': histogram_M[0][14],
-            'm16': histogram_M[0][15], 'm17': histogram_M[0][16], 'm18': histogram_M[0][17],
-            'm19': histogram_M[0][18], 'm20': histogram_M[0][19], 'm21': histogram_M[0][20],
-            'm22': histogram_M[0][21], 'm23': histogram_M[0][22], 'm24': histogram_M[0][23],
-            'm25': histogram_M[0][24], 'm26': histogram_M[0][25],
-        }
-        X_test = X_test.append(new_baris, ignore_index=True)
-        X_test_norm = scale_features_mm.fit_transform(X_test)
-        # X_test_norm_pd = pd.DataFrame(X_test_norm)
+            new_baris = {
+                'l1': histogram_L[0][0], 'l2': histogram_L[0][1], 'l3': histogram_L[0][2],
+                'l4': histogram_L[0][3], 'l5': histogram_L[0][4], 'l6': histogram_L[0][5],
+                'l7': histogram_L[0][6], 'l8': histogram_L[0][7], 'l9': histogram_L[0][8],
+                'l10': histogram_L[0][9], 'l11': histogram_L[0][10], 'l12': histogram_L[0][11],
+                'l13': histogram_L[0][12], 'l14': histogram_L[0][13], 'l15': histogram_L[0][14],
+                'l16': histogram_L[0][15], 'l17': histogram_L[0][16], 'l18': histogram_L[0][17],
+                'l19': histogram_L[0][18], 'l20': histogram_L[0][19], 'l21': histogram_L[0][20],
+                'l22': histogram_L[0][21], 'l23': histogram_L[0][22], 'l24': histogram_L[0][23],
+                'l25': histogram_L[0][24], 'l26': histogram_L[0][25],
+                'r1': histogram_R[0][0], 'r2': histogram_R[0][1], 'r3': histogram_R[0][2],
+                'r4': histogram_R[0][3], 'r5': histogram_R[0][4], 'r6': histogram_R[0][5],
+                'r7': histogram_R[0][6], 'r8': histogram_R[0][7], 'r9': histogram_R[0][8],
+                'r10': histogram_R[0][9], 'r11': histogram_R[0][10], 'r12': histogram_R[0][11],
+                'r13': histogram_R[0][12], 'r14': histogram_R[0][13], 'r15': histogram_R[0][14],
+                'r16': histogram_R[0][15], 'r17': histogram_R[0][16], 'r18': histogram_R[0][17],
+                'r19': histogram_R[0][18], 'r20': histogram_R[0][19], 'r21': histogram_R[0][20],
+                'r22': histogram_R[0][21], 'r23': histogram_R[0][22], 'r24': histogram_R[0][23],
+                'r25': histogram_R[0][24], 'r26': histogram_R[0][25],
+                'm1': histogram_M[0][0], 'm2': histogram_M[0][1], 'm3': histogram_M[0][2],
+                'm4': histogram_M[0][3], 'm5': histogram_M[0][4], 'm6': histogram_M[0][5],
+                'm7': histogram_M[0][6], 'm8': histogram_M[0][7], 'm9': histogram_M[0][8],
+                'm10': histogram_M[0][9], 'm11': histogram_M[0][10], 'm12': histogram_M[0][11],
+                'm13': histogram_M[0][12], 'm14': histogram_M[0][13], 'm15': histogram_M[0][14],
+                'm16': histogram_M[0][15], 'm17': histogram_M[0][16], 'm18': histogram_M[0][17],
+                'm19': histogram_M[0][18], 'm20': histogram_M[0][19], 'm21': histogram_M[0][20],
+                'm22': histogram_M[0][21], 'm23': histogram_M[0][22], 'm24': histogram_M[0][23],
+                'm25': histogram_M[0][24], 'm26': histogram_M[0][25],
+            }
+            X_test = X_test.append(new_baris, ignore_index=True)
+            X_test_norm = scale_features_mm.fit_transform(X_test)
+            # X_test_norm_pd = pd.DataFrame(X_test_norm)
 
-        # st.write("Hasil Normalisasi",X_test_norm_pd.iloc[-1:].values)
+            # st.write("Hasil Normalisasi",X_test_norm_pd.iloc[-1:].values)
 
-        # y_pred = svm.predict(X_test_norm_pd.iloc[-2:].values, flag=True)
-        # st.write(y_pred)
+            # y_pred = svm.predict(X_test_norm_pd.iloc[-2:].values, flag=True)
+            # st.write(y_pred)
 
-        Y_pred_all = svm.predict(X_test_norm, flag=False)
-        # st.write(Y_pred_all)
+            Y_pred_all = svm.predict(X_test_norm, flag=False)
+            # st.write(Y_pred_all)
 
-        _, col22, _, _ = st.columns([1, 1, 1, 1])
-        with col22:
-            st.image(image, caption='Wajah Terdeteksi', width=300)
-            # st.write(f"Ekspresi {emotions[Y_pred_all[-1]]}")
+            _, col22, _, _ = st.columns([1, 1, 1, 1])
+            with col22:
+                st.image(image, caption='Wajah Terdeteksi', width=300)
+                # st.write(f"Ekspresi {emotions[Y_pred_all[-1]]}")
 
-        _, col1, col2, col3, _ = st.columns([1, 1, 1, 1, 1])
-        with col1:
-            st.image(leftEye, caption='Mata Kiri', width=100)
-        with col2:
-            st.image(mouth, caption='Mulut', width=100)
-        with col3:
-            st.image(rightEye, caption='Mata Kanan', width=100)
+            _, col1, col2, col3, _ = st.columns([1, 1, 1, 1, 1])
+            with col1:
+                st.image(leftEye, caption='Mata Kiri', width=100)
+            with col2:
+                st.image(mouth, caption='Mulut', width=100)
+            with col3:
+                st.image(rightEye, caption='Mata Kanan', width=100)
 
-        st.markdown("""
-        <style>
-        .big-font {
-            font-size:30px !important;
-            text-align: center;
-            color: #270;
-            background-color: #DFF2BF;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+            st.markdown("""
+            <style>
+            .big-font {
+                font-size:30px !important;
+                text-align: center;
+                color: #270;
+                background-color: #DFF2BF;
+            }
+            </style>
+            """, unsafe_allow_html=True)
 
-        st.markdown(f'<p class="big-font">Hasil Klasifikasi : {emotions[Y_pred_all[-1]]}</p>', unsafe_allow_html=True)
-
-
-
+            st.markdown(f'<p class="big-font">Hasil Klasifikasi : {emotions[Y_pred_all[-1]]}</p>', unsafe_allow_html=True)
+    else:
+        st.write('Wajah tidak terdeteksi!')
