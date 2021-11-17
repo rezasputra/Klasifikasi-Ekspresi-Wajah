@@ -104,6 +104,10 @@ st.write("""
 placeholder = st.empty()
 uploaded_file = st.file_uploader("Masukkan Gambar", type=["jpg", 'png'])
 if uploaded_file is not None:
+    temp = Image.open(uploaded_file)
+    _, col222, _, _ = st.columns([1, 1, 1, 1])
+    with col222:
+        st.image(temp, width=300)
     image = Image.open(uploaded_file).convert('L')
     image = np.array(image)
 
