@@ -157,7 +157,7 @@ class MulticlassSVM:
         # Training different binary classifiers
         self._fit_one_vs_many_classifiers()
 
-    def predict(self, X):
+    def predict(self, X, flag):
 
         # Creating predictions for each binary classifier
         predictions = {}
@@ -168,17 +168,20 @@ class MulticlassSVM:
         y = []
         for p0, p1, p2, p3, p4, p5, p6 in zip(predictions[0], predictions[1], predictions[2], predictions[3],
                                               predictions[4], predictions[5], predictions[6]):
-            p0 = abs(p0)
-            p1 = abs(p1)
-            p2 = abs(p2)
-            p3 = abs(p3)
-            p4 = abs(p4)
-            p5 = abs(p5)
-            p6 = abs(p6)
-            # print(p0, p1, p2, p3, p4, p5, p6)
+            if flag:
+                p0 = abs(p0)
+                p1 = abs(p1)
+                p2 = abs(p2)
+                p3 = abs(p3)
+                p4 = abs(p4)
+                p5 = abs(p5)
+                p6 = abs(p6)
 
-            single_observation_predictions = [p0, p1, p2, p3, p4, p5, p6]
-            y.append(single_observation_predictions.index(max([p0, p1, p2, p3, p4, p5, p6])))
+                single_observation_predictions = [p0, p1, p2, p3, p4, p5, p6]
+                y.append(single_observation_predictions.index(max([p0, p1, p2, p3, p4, p5, p6])))
+            else:
+                single_observation_predictions = [p0, p1, p2, p3, p4, p5, p6]
+                y.append(single_observation_predictions.index(max([p0, p1, p2, p3, p4, p5, p6])))
         return y
 
     def accuracy(y_pred, y_test):
