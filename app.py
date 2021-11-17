@@ -9,6 +9,8 @@ from SVM import *
 from imutils import face_utils
 from skimage import feature
 from sklearn.preprocessing import MinMaxScaler
+import dask.dataframe as dd
+from dask_ml.preprocessing import MinMaxScaler
 
 emotions = ['Happy', 'Contempt', 'Fear', 'Surprise', 'Sadness', 'Anger', 'Disgust']
 detector = dlib.get_frontal_face_detector()
@@ -171,7 +173,11 @@ if uploaded_file is not None:
                 'm25': histogram_M[0][24], 'm26': histogram_M[0][25],
             }
             X_test = X_test.append(new_baris, ignore_index=True)
-            X_test_norm = scale_features_mm.fit_transform(X_test)
+            ddf = dd.from_pandas(X_test, npartitions=10)
+            scaler = MinMaxScaler()
+            scaler.fit(X_test)
+            X_test_ddf = scaler.transform(X_test)
+            # X_test_norm = scale_features_mm.fit_transform(X_test)
             # X_test_norm_pd = pd.DataFrame(X_test_norm)
 
             # st.write("Hasil Normalisasi",X_test_norm_pd.iloc[-1:].values)
