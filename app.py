@@ -185,7 +185,7 @@ if uploaded_file is not None:
             # y_pred = svm.predict(X_test_norm_pd.iloc[-2:].values, flag=True)
             # st.write(y_pred)
 
-            Y_pred_all = svm.predict(X_test_norm, flag=False)
+            Y_pred_all = svm.predict(X_test_ddf.values, flag=False)
             # st.write(Y_pred_all)
 
             _, col22, _, _ = st.columns([1, 1, 1, 1])
