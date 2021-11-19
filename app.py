@@ -24,10 +24,10 @@ infile = open('X_test.pickle', 'rb')
 X_test = pickle.load(infile)
 infile.close()
 
-# st.write('X_Test',X_test)
-# st.write('X_Test_norm', X_test_norm)
+infile = open('scaler.pickle', 'rb')
+sc = pickle.load(infile)
+infile.close()
 
-scale_features_mm = MinMaxScaler()
 
 class LocalBinaryPattern:
     def __init__(self, numPoints, radius):
@@ -141,7 +141,6 @@ if uploaded_file is not None:
             data_M = pd.DataFrame(histogram_M)
 
             data = pd.concat([data_L, data_R, data_M], axis=1, ignore_index=True)
-            # st.write("Hasil Histogram", data)
 
             new_baris = {
                 'l1': histogram_L[0][0], 'l2': histogram_L[0][1], 'l3': histogram_L[0][2],
@@ -173,25 +172,12 @@ if uploaded_file is not None:
                 'm25': histogram_M[0][24], 'm26': histogram_M[0][25],
             }
             X_test = X_test.append(new_baris, ignore_index=True)
-            ddf = dd.from_pandas(X_test, npartitions=10)
-            scaler = MinMaxScaler()
-            scaler.fit(X_test)
-            X_test_ddf = scaler.transform(X_test)
-            # X_test_norm = scale_features_mm.fit_transform(X_test)
-            # X_test_norm_pd = pd.DataFrame(X_test_norm)
-
-            # st.write("Hasil Normalisasi",X_test_norm_pd.iloc[-1:].values)
-
-            # y_pred = svm.predict(X_test_norm_pd.iloc[-2:].values, flag=True)
-            # st.write(y_pred)
-
-            Y_pred_all = svm.predict(X_test_ddf.values, flag=False)
-            # st.write(Y_pred_all)
+            X_test_ddf = sc.transform(X_test)
+            Y_pred_all = svm.predict(X_test_ddf.iloc[-1:].values, flag=False)
 
             _, col22, _, _ = st.columns([1, 1, 1, 1])
             with col22:
                 st.image(image, caption='Wajah Terdeteksi', width=300)
-                # st.write(f"Ekspresi {emotions[Y_pred_all[-1]]}")
 
             _, col1, col2, col3, _ = st.columns([1, 1, 1, 1, 1])
             with col1:
