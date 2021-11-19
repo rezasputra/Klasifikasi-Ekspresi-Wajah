@@ -1,5 +1,7 @@
 # Klasifikasi Ekspresi Wajah
 
+![image](https://user-images.githubusercontent.com/66559322/142560871-2f99c4c4-05b8-438d-8c66-ae3b1c864f33.png)
+
 <p align="center">Project ini dibuat untuk memenuhi syarat meraih gelar Sarjana Komputer, Dengan melakukan <b>Klasifikasi Ekspresi Wajah Manusia</b> menggunakan algoritme <b>Local Binary Pattern (LBP)</b> untuk ekstraksi fitur dan <b>Support Vector Machine</b> untuk klasifikasi. </p>
 
 
