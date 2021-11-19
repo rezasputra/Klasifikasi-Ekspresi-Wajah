@@ -89,5 +89,7 @@ Berikut struktur dari  file `SVM.py`
 
 Dari proses training didapatkan tingkat akurasi mencapai **98%** pada data uji. 
 Tidak cukup dengan pengukuran akurasi, 
-Berikut untuk *confusion matrix* hasil pengujian
+<details>
+<summary>Confusion Matrix Pengujian</summary>
 ![Gambar1](https://user-images.githubusercontent.com/66559322/142560732-7cf06321-d5ff-45c7-9d40-26ae58e86618.jpg)
+ </details>
