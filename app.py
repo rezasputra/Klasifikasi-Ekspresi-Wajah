@@ -14,7 +14,7 @@ from dask_ml.preprocessing import MinMaxScaler
 
 emotions = ['Happy', 'Contempt', 'Fear', 'Surprise', 'Sadness', 'Anger', 'Disgust']
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("Model/shape_predictor_68_face_landmarks.dat")
 
 infile = open('Model/svm.pickle','rb')
 svm = pickle.load(infile)
