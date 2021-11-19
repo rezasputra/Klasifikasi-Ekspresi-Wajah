@@ -46,6 +46,7 @@ Pada project ini terdapat 3 file utama.
 Untuk menggunakan Klasifikasi-Ekspresi-Wajah silahkan mengunjungi situs
 [**Dashboard Klasifikasi-Ekspresi-Wajah**](http://klasifikasi-ekspresi-wajah.herokuapp.com/)
 <img width="1440" alt="Jepretan Layar 2021-11-19 pukul 10 08 48" src="https://user-images.githubusercontent.com/66559322/142560107-32c05f39-4163-4a86-8f6d-d4352ad2a74a.png">
+<br>
 
 Pilih gambar yang berisikan wajah dengan menunjukkan ekspresi 1 dari 7 ekspresi. Berikut adalah contoh gambar yang bisa di pilih. <br>
 ![2175](https://user-images.githubusercontent.com/66559322/142560187-25e0d354-0b4c-4e24-94c4-89f40fd18bfb.jpg)
@@ -53,7 +54,7 @@ Pilih gambar yang berisikan wajah dengan menunjukkan ekspresi 1 dari 7 ekspresi.
 ![3147](https://user-images.githubusercontent.com/66559322/142560222-529ca8bf-7990-4fbd-88a7-82eed4c9f8aa.jpg)
 ![758](https://user-images.githubusercontent.com/66559322/142560271-be3c7472-90a6-4add-b713-322d5802a2f6.jpg)
 
-
+<br>
 Akan ditampilkan gambar yang dipilih, Wajah Terdeteksi, Bagian AOI Terdeteksi dan Hasil Klasifikasi
 ![image](https://user-images.githubusercontent.com/66559322/142560618-533f79f8-596c-4f72-b48c-38fd8625b9c7.png)
 
